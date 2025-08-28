@@ -63,7 +63,7 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
-    public function createUserSeed(string $email, string $name, string $password): bool
+    public function createUserSeed(string $email, string $name, string $password): User
     {
         return self::firstOrCreate(
             ['email' => $email],

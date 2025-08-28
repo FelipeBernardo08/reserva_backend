@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class AuthController extends Controller
         $this->userModel = $user;
     }
 
-    public function login(Request $request): object
+    public function login(LoginRequest $request): object
     {
         try {
             $input = $request->all();
