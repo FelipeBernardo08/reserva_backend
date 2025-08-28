@@ -27,7 +27,7 @@ class AuthController extends Controller
                 return response()->json(['success' => false, 'error' => 'Usuário não encontrado!'], Response::HTTP_NOT_FOUND);
             }
 
-            $token = auth('user')->attempt();
+            $token = auth()->attempt($input);
 
             if (!$token) {
                 return response()->json(['success' => false, 'error' => 'Não autorizado!'], Response::HTTP_UNAUTHORIZED);

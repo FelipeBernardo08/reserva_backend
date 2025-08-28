@@ -12,4 +12,24 @@ class Participant extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function createParticipant(string $name): array
+    {
+        return self::create([
+            'name' => $name
+        ])->toArray();
+    }
+
+    public function getAllParticipants(): array
+    {
+        return self::get()->toArray();
+    }
+
+    public function updateParticipant(int $id, string $name): bool
+    {
+        return self::where('id', $id)
+            ->update([
+                'name' => $name
+            ]);
+    }
 }
