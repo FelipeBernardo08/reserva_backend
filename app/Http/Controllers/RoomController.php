@@ -25,6 +25,10 @@ class RoomController extends Controller
     {
         try {
             $input = $request->all();
+            $roomExists = $this->roomModel->getRoomByTitle($input['title']);
+            if (!empty($roomExists)) {
+                return response()->json(['success' => false, 'error' => 'Sala existente!'], Response::HTTP_CONFLICT);
+            }
             $responseCreateRoom = $this->roomModel->createRoom($input['title'], $input['description']);
             if (empty($responseCreateRoom)) {
                 return response()->json(['success' => false, 'error' => 'Sala não pode ser criada no momento, tente novamente mais tarde!'], Response::HTTP_BAD_REQUEST);

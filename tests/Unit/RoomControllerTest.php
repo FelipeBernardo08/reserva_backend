@@ -13,6 +13,40 @@ use Mockery;
 class RoomControllerTest extends TestCase
 {
 
+    public function test_create_room_error_exists(): void
+    {
+        $mockRequestData = [
+            'title' => 'teste',
+            'description' => 'sala teste criada'
+        ];
+
+        $mockReturn = [
+            'title' => 'teste',
+            'description' => 'sala teste criada',
+            'id' => 1,
+            'created_at' => 'XXXX-XX-XX XX:XX:XX',
+            'updated_at' => 'XXXX-XX-XX XX:XX:XX'
+        ];
+
+        $mockCacheService = Mockery::mock(CacheService::class);
+
+        $mockRequest = Mockery::mock(CreateRoomRequest::class);
+        $mockRequest->shouldReceive('all')
+            ->andReturn($mockRequestData);
+
+        $mockRoomModel = Mockery::mock(Room::class);
+        $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->with($mockRequestData['title'])
+            ->andReturn($mockReturn);
+
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
+
+        $response = $controller->createRoom($mockRequest);
+
+        $this->assertEquals(409, $response->status());
+        $this->assertEquals((object)['success' => false, 'error' => 'Sala existente!'], $response->getData());
+    }
+
     public function test_create_room_error(): void
     {
         $mockRequestData = [
@@ -29,6 +63,10 @@ class RoomControllerTest extends TestCase
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('createRoom')
             ->with($mockRequestData['title'], $mockRequestData['description'])
+            ->andReturn([]);
+
+        $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->with($mockRequestData['title'])
             ->andReturn([]);
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
@@ -64,6 +102,11 @@ class RoomControllerTest extends TestCase
         $mockRoomModel->shouldReceive('createRoom')
             ->with($mockRequestData['title'], $mockRequestData['description'])
             ->andReturn($mockResponseCreate);
+
+        $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->with($mockRequestData['title'])
+            ->andReturn([]);
+
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
 

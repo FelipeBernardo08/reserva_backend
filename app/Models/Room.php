@@ -22,6 +22,13 @@ class Room extends Model
         ])->toArray();
     }
 
+    public function getRoomByTitle(string $title): array
+    {
+        return self::where('title', $title)
+            ->get()
+            ->toArray();
+    }
+
     public function getAllRooms(): array
     {
         return self::get()->toArray();
