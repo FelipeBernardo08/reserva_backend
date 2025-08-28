@@ -55,6 +55,8 @@ class ParticipantControllerTest extends TestCase
             ->andReturn($mockRequestData);
 
         $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('increment')
+            ->with('participants', $mockResponseCreate);
 
         $mockParticipantModel = Mockery::mock(Participant::class);
         $mockParticipantModel->shouldReceive('createParticipant')

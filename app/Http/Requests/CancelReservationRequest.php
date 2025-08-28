@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateParticipantRequest extends FormRequest
+class CancelReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,15 @@ class CreateParticipantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'id' => 'required|integer',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Nome não fornecido!',
-            'name.string' => 'Campo nome deve ser um nome válido.',
-            'name.max' => 'Campo nome deve ter no máximo, 255 caracteres.',
+            'id.required' => 'Id não fornecido!',
+            'id.integer' => 'Id deve ser do tipo numérico!'
         ];
     }
 }

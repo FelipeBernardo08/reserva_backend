@@ -93,6 +93,8 @@ class RoomControllerTest extends TestCase
         ];
 
         $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('increment')
+            ->with('rooms', $mockResponseCreate);
 
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')

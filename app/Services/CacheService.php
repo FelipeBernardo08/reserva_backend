@@ -12,6 +12,13 @@ class CacheService
         return Cache::get($cacheName) ?? [];
     }
 
+    public function increment(string $cacheName, array $data): void
+    {
+        $response = Cache::get($cacheName) ?? [];
+        $response[] = $data;
+        Cache::set($cacheName, $response);
+    }
+
     public function create(string $cacheName, array $data, int $time): void
     {
         Cache::set($cacheName, $data, $time);
@@ -24,20 +31,20 @@ class CacheService
         Cache::set($cacheName, $response, $time);
     }
 
-    public function remove(string $cacheName, string $index): void
-    {
-        $response = Cache::get($cacheName) ?? [];
-        unset($response[$index]);
-        Cache::set($cacheName, $response);
-    }
+    // public function remove(string $cacheName, string $index): void
+    // {
+    //     $response = Cache::get($cacheName) ?? [];
+    //     unset($response[$index]);
+    //     Cache::set($cacheName, $response);
+    // }
 
-    public function removeAll(string $cacheName): void
-    {
-        Cache::forget($cacheName);
-    }
+    // public function removeAll(string $cacheName): void
+    // {
+    //     Cache::forget($cacheName);
+    // }
 
-    public function clear(): void
-    {
-        Cache::clear();
-    }
+    // public function clear(): void
+    // {
+    //     Cache::clear();
+    // }
 }

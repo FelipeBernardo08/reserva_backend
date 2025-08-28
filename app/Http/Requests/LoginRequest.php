@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|string|max:20'
+            'password' => 'required|string|max:255'
         ];
     }
 
@@ -34,7 +34,7 @@ class LoginRequest extends FormRequest
             'email.email' => 'E-mail inválido',
             'password.required' => 'Senha não fornecida!',
             'password.string' => 'Senha deve ser do tipo string.',
-            'passwor.max:20' => 'Senha deve ter no máximo 20 caracteres.'
+            'passwor.max' => 'Senha deve ter no máximo 255 caracteres.'
         ];
     }
 }
