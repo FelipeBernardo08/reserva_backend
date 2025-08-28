@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateParticipantRequest;
 use App\Models\Participant;
+use App\Services\CacheService;
 use Exception;
 use Illuminate\Http\Response;
 
 class ParticipantController extends Controller
 {
     private $participantModel;
+    private $cacheService;
 
     public function __construct(
-        Participant $articipant
+        Participant $articipant,
+        CacheService $cache
     ) {
         $this->participantModel = $articipant;
+        $this->cacheService = $cache;
     }
 
     public function createParticipant(CreateParticipantRequest $request): object
@@ -34,7 +38,11 @@ class ParticipantController extends Controller
     public function getAllParticipants(): object
     {
         try {
-            $participants = $this->participantModel->getAllParticipants();
+            $participantsCache = $this->cacheService->read('participants');
+            $participants = empty($participantsCache) ? $this->participantModel->getAllParticipants() : $participantsCache;
+            if (empty($participantsCache)) {
+                $this->cacheService->create('participants', $participants, 600);
+            }
             if (empty($participants)) {
                 return response()->json(['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], Response::HTTP_NOT_FOUND);
             }

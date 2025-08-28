@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRoomRequest;
 use App\Models\Room;
+use App\Services\CacheService;
 use Exception;
 use Illuminate\Http\Response;
 
 class RoomController extends Controller
 {
     private $roomModel;
+    private $cacheService;
 
     public function __construct(
-        Room $room
+        Room $room,
+        CacheService $cache
     ) {
         $this->roomModel = $room;
+        $this->cacheService = $cache;
     }
 
     public function createRoom(CreateRoomRequest $request): object
@@ -34,7 +38,11 @@ class RoomController extends Controller
     public function getAllRooms(): object
     {
         try {
-            $rooms = $this->roomModel->getAllRooms();
+            $roomCache = $this->cacheService->read('rooms');
+            $rooms = empty($roomCache) ? $this->roomModel->getAllRooms() : $roomCache;
+            if (empty($roomCache)) {
+                $this->cacheService->create('rooms', $rooms, 600);
+            }
             if (empty($rooms)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], Response::HTTP_NOT_FOUND);
             }

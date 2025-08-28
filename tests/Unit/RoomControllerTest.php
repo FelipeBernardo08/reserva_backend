@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Http\Controllers\RoomController;
 use App\Http\Requests\CreateRoomRequest;
 use App\Models\Room;
+use App\Services\CacheService;
 use Tests\TestCase;
 use Mockery;
 
@@ -19,6 +20,8 @@ class RoomControllerTest extends TestCase
             'description' => 'sala teste criada'
         ];
 
+        $mockCacheService = Mockery::mock(CacheService::class);
+
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')
             ->andReturn($mockRequestData);
@@ -28,7 +31,7 @@ class RoomControllerTest extends TestCase
             ->with($mockRequestData['title'], $mockRequestData['description'])
             ->andReturn([]);
 
-        $controller = new RoomController($mockRoomModel);
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
 
         $response = $controller->createRoom($mockRequest);
 
@@ -51,6 +54,8 @@ class RoomControllerTest extends TestCase
             'updated_at' => 'XXXX-XX-XX XX:XX:XX'
         ];
 
+        $mockCacheService = Mockery::mock(CacheService::class);
+
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')
             ->andReturn($mockRequestData);
@@ -60,7 +65,7 @@ class RoomControllerTest extends TestCase
             ->with($mockRequestData['title'], $mockRequestData['description'])
             ->andReturn($mockResponseCreate);
 
-        $controller = new RoomController($mockRoomModel);
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
 
         $response = $controller->createRoom($mockRequest);
 
@@ -68,15 +73,23 @@ class RoomControllerTest extends TestCase
         $this->assertEquals((object)['success' => true, 'data' => (object) $mockResponseCreate], $response->getData());
     }
 
-    public function test_get_all_rooms_error(): void
+    public function test_get_all_rooms_no_cache_error(): void
     {
         $mockReturn = [];
+
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('read')
+            ->with('rooms')
+            ->andReturn([]);
+
+        $mockCacheService->shouldReceive('create')
+            ->with('rooms', [], 600);
 
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('getAllRooms')
             ->andReturn($mockReturn);
 
-        $controller = new RoomController($mockRoomModel);
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
 
         $response = $controller->getAllRooms();
 
@@ -84,7 +97,7 @@ class RoomControllerTest extends TestCase
         $this->assertEquals((object)['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], $response->getData());
     }
 
-    public function test_get_all_rooms_ok(): void
+    public function test_get_all_rooms_no_cache_ok(): void
     {
         $mockReturn = [
             (object)[
@@ -95,11 +108,49 @@ class RoomControllerTest extends TestCase
                 'updated_at' => 'XXXX-XX-XX XX:XX:XX'
             ]
         ];
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('read')
+            ->with('rooms')
+            ->andReturn([]);
+
+        $mockCacheService->shouldReceive('create')
+            ->with('rooms', $mockReturn, 600);
+
         $mockRoomModel = Mockery::mock(Room::class);
+
         $mockRoomModel->shouldReceive('getAllRooms')
             ->andReturn($mockReturn);
 
-        $controller = new RoomController($mockRoomModel);
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
+
+        $response = $controller->getAllRooms();
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
+    }
+
+    public function test_get_all_rooms_with_cache_ok(): void
+    {
+        $mockReturn = [
+            (object)[
+                'id' => 1,
+                'title' => 'teste',
+                'description' => 'sala teste criada',
+                'created_at' => 'XXXX-XX-XX XX:XX:XX',
+                'updated_at' => 'XXXX-XX-XX XX:XX:XX'
+            ]
+        ];
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('read')
+            ->with('rooms')
+            ->andReturn($mockReturn);
+
+        $mockCacheService->shouldReceive('create')
+            ->with('rooms', $mockReturn, 600);
+
+        $mockRoomModel = Mockery::mock(Room::class);
+
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
 
         $response = $controller->getAllRooms();
 
