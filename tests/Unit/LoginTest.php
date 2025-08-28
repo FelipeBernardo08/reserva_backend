@@ -11,10 +11,10 @@ use Mockery;
 
 class LoginTest extends TestCase
 {
-    public function test_login_failed_user_not_found()
+    public function test_login_failed_user_not_found(): void
     {
-        $request = Mockery::mock(LoginRequest::class);
-        $request->shouldReceive('all')
+        $mockRequest = Mockery::mock(LoginRequest::class);
+        $mockRequest->shouldReceive('all')
             ->andReturn([
                 'email' => 'user@email.com',
                 'password' => '123'
@@ -29,21 +29,21 @@ class LoginTest extends TestCase
 
         $controller = new AuthController($userModelMock);
 
-        $response = $controller->login($request);
+        $response = $controller->login($mockRequest);
 
         $this->assertEquals(404, $response->status());
         $this->assertEquals((object)['success' => false, 'error' => 'Usuário não encontrado!'], $response->getData());
     }
 
-    public function test_login_failed_user_unauthorized()
+    public function test_login_failed_user_unauthorized(): void
     {
         $userMock = [
             'email' => 'user@email.com',
             'password' => '123'
         ];
 
-        $request = Mockery::mock(LoginRequest::class);
-        $request->shouldReceive('all')
+        $mockRequest = Mockery::mock(LoginRequest::class);
+        $mockRequest->shouldReceive('all')
             ->andReturn($userMock);
 
         $userModelMock = Mockery::mock(User::class);
@@ -59,13 +59,13 @@ class LoginTest extends TestCase
 
         $controller = new AuthController($userModelMock);
 
-        $response = $controller->login($request);
+        $response = $controller->login($mockRequest);
 
         $this->assertEquals(401, $response->status());
         $this->assertEquals((object)['success' => false, 'error' => 'Não autorizado!'], $response->getData());
     }
 
-    public function test_login_success()
+    public function test_login_success(): void
     {
         $userMock = [
             'email' => 'user@email.com',
@@ -74,8 +74,8 @@ class LoginTest extends TestCase
 
         $tokenMock = 'absidj9817312931hkh';
 
-        $request = Mockery::mock(LoginRequest::class);
-        $request->shouldReceive('all')
+        $mockRequest = Mockery::mock(LoginRequest::class);
+        $mockRequest->shouldReceive('all')
             ->andReturn($userMock);
 
         $userModelMock = Mockery::mock(User::class);
@@ -91,7 +91,7 @@ class LoginTest extends TestCase
 
         $controller = new AuthController($userModelMock);
 
-        $response = $controller->login($request);
+        $response = $controller->login($mockRequest);
 
         $this->assertEquals(200, $response->status());
         $this->assertEquals((object)['success' => true, 'data' => (object)['token' => $tokenMock]], $response->getData());

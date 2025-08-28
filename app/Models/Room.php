@@ -13,4 +13,17 @@ class Room extends Model
         'title',
         'description'
     ];
+
+    public function createRoom(string $title, string $description): array
+    {
+        return self::create([
+            'title' => $title,
+            'description' => $description
+        ])->toArray();
+    }
+
+    public function getAllRooms(): array
+    {
+        return self::get()->toArray();
+    }
 }

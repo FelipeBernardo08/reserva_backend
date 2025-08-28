@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateParticipantRequest;
 use App\Models\Participant;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ParticipantController extends Controller
