@@ -13,6 +13,11 @@ class Participant extends Model
         'name'
     ];
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'participant_id');
+    }
+
     public function createParticipant(string $name): array
     {
         return self::create([

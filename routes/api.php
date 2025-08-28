@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ParticipantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::prefix('participant')->group(function () {
+        Route::post('/create', [ParticipantController::class, 'createParticipant']);
+        Route::get('/read-all', [ParticipantController::class, 'getAllParticipants']);
+    });
 });
