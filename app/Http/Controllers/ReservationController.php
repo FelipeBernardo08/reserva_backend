@@ -6,6 +6,7 @@ use App\Http\Requests\CancelReservationRequest;
 use App\Http\Requests\CreateReservationRequest;
 use App\Models\Reservation;
 use App\Models\ReservationParticipant;
+use App\Services\CacheService;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,13 +16,16 @@ class ReservationController extends Controller
 {
     private $reservationModel;
     private $reservationParticipantModel;
+    private $cacheService;
 
     public function __construct(
         Reservation $reservation,
-        ReservationParticipant $reservationParticipant
+        ReservationParticipant $reservationParticipant,
+        CacheService $cache
     ) {
         $this->reservationModel = $reservation;
         $this->reservationParticipantModel = $reservationParticipant;
+        $this->cacheService = $cache;
     }
 
     public function createReservation(CreateReservationRequest $request): object
@@ -38,6 +42,7 @@ class ReservationController extends Controller
             if (!empty($input['reservationParticipants'])) {
                 $this->reservationParticipantModel->createReservationParticipants($responseCreateReservation['id'], $input['reservationParticipants']);
             }
+            $this->cacheService->increment('reservations', $responseCreateReservation);
             return response()->json(['success' => true, 'data' => $responseCreateReservation], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

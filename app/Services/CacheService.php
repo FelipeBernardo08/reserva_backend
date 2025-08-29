@@ -30,21 +30,4 @@ class CacheService
         $response[$index] = $data;
         Cache::set($cacheName, $response, $time);
     }
-
-    // public function remove(string $cacheName, string $index): void
-    // {
-    //     $response = Cache::get($cacheName) ?? [];
-    //     unset($response[$index]);
-    //     Cache::set($cacheName, $response);
-    // }
-
-    // public function removeAll(string $cacheName): void
-    // {
-    //     Cache::forget($cacheName);
-    // }
-
-    // public function clear(): void
-    // {
-    //     Cache::clear();
-    // }
 }
