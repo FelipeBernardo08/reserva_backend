@@ -9,7 +9,6 @@ use App\Models\ReservationParticipant;
 use App\Services\CacheService;
 use Tests\TestCase;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class ReservationControllerTest extends TestCase
 {
@@ -150,6 +149,57 @@ class ReservationControllerTest extends TestCase
         $mockReservationParticipantModel->shouldReceive('createReservationParticipants')
             ->once()
             ->with($mockReturnCreateReservation['id'], $mockRequestData['reservationParticipants']);
+
+        $controller = new ReservationController($mockReservationModel, $mockReservationParticipantModel, $mockCacheService);
+
+        $response = $controller->createReservation($mockRequest);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals((object)['success' => true, 'data' => (object)$mockReturnCreateReservation], $response->getData());
+    }
+
+    public function test_create_reservation_ok_no_participants(): void
+    {
+        $mockRequestData = [
+            'roomId' => 1,
+            'dateInit' => '2025-08-29 12:20:00',
+            'dateEnd' => '2025-08-29 13:20:00'
+        ];
+
+        $mockReturnReservationExists = [];
+
+        $mockReturnCreateReservation = [
+            'id' => 1,
+            'room_id' => 2,
+            'date_init' => '',
+            'date_end' => '',
+            'created_at' => '',
+            'updated_at' => ''
+        ];
+
+        $mockRequest = Mockery::mock(CreateReservationRequest::class);
+        $mockRequest->shouldReceive('all')
+            ->once()
+            ->andReturn($mockRequestData);
+
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockCacheService->shouldReceive('increment')
+            ->once()
+            ->with('reservations', $mockReturnCreateReservation);
+
+        $mockReservationModel = Mockery::mock(Reservation::class);
+        $mockReservationModel->shouldReceive('getReservationActiveByRoomId')
+            ->once()
+            ->with($mockRequestData['roomId'])
+            ->andReturn($mockReturnReservationExists);
+
+        $mockReservationModel->shouldReceive('createReservation')
+            ->once()
+            ->with($mockRequestData['roomId'], $mockRequestData['dateInit'], $mockRequestData['dateEnd'])
+            ->andReturn($mockReturnCreateReservation);
+
+
+        $mockReservationParticipantModel = Mockery::mock(ReservationParticipant::class);
 
         $controller = new ReservationController($mockReservationModel, $mockReservationParticipantModel, $mockCacheService);
 

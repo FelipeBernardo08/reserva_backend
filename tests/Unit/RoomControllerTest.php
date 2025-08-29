@@ -9,7 +9,6 @@ use App\Services\CacheService;
 use Tests\TestCase;
 use Mockery;
 
-
 class RoomControllerTest extends TestCase
 {
 
@@ -32,10 +31,12 @@ class RoomControllerTest extends TestCase
 
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($mockRequestData);
 
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->once()
             ->with($mockRequestData['title'])
             ->andReturn($mockReturn);
 
@@ -58,14 +59,17 @@ class RoomControllerTest extends TestCase
 
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($mockRequestData);
 
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('createRoom')
+            ->once()
             ->with($mockRequestData['title'], $mockRequestData['description'])
             ->andReturn([]);
 
         $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->once()
             ->with($mockRequestData['title'])
             ->andReturn([]);
 
@@ -94,18 +98,22 @@ class RoomControllerTest extends TestCase
 
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('increment')
+            ->once()
             ->with('rooms', $mockResponseCreate);
 
         $mockRequest = Mockery::mock(CreateRoomRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($mockRequestData);
 
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('createRoom')
+            ->once()
             ->with($mockRequestData['title'], $mockRequestData['description'])
             ->andReturn($mockResponseCreate);
 
         $mockRoomModel->shouldReceive('getRoomByTitle')
+            ->once()
             ->with($mockRequestData['title'])
             ->andReturn([]);
 
@@ -124,14 +132,17 @@ class RoomControllerTest extends TestCase
 
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('rooms')
             ->andReturn([]);
 
         $mockCacheService->shouldReceive('create')
+            ->once()
             ->with('rooms', [], 600);
 
         $mockRoomModel = Mockery::mock(Room::class);
         $mockRoomModel->shouldReceive('getAllRooms')
+            ->once()
             ->andReturn($mockReturn);
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
@@ -155,15 +166,18 @@ class RoomControllerTest extends TestCase
         ];
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('rooms')
             ->andReturn([]);
 
         $mockCacheService->shouldReceive('create')
+            ->once()
             ->with('rooms', $mockReturn, 600);
 
         $mockRoomModel = Mockery::mock(Room::class);
 
         $mockRoomModel->shouldReceive('getAllRooms')
+            ->once()
             ->andReturn($mockReturn);
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
@@ -187,11 +201,9 @@ class RoomControllerTest extends TestCase
         ];
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('rooms')
             ->andReturn($mockReturn);
-
-        $mockCacheService->shouldReceive('create')
-            ->with('rooms', $mockReturn, 600);
 
         $mockRoomModel = Mockery::mock(Room::class);
 

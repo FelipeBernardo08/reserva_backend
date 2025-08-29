@@ -30,4 +30,9 @@ class CacheService
         $response[$index] = $data;
         Cache::set($cacheName, $response, $time);
     }
+
+    public function delete(string $cacheName): void
+    {
+        Cache::forget($cacheName);
+    }
 }

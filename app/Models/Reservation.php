@@ -78,6 +78,26 @@ class Reservation extends Model
             ->toArray();
     }
 
+    public function getReservationByParticipantIdComplete(int $participantId): array
+    {
+        return self::with([
+            'room' => function ($query) {
+                $query->select(['id', 'title', 'description']);
+            },
+            'reservationParticipants' => function ($query) {
+                $query->select(['id', 'reservation_id', 'participant_id']);
+            },
+            'reservationParticipants.participant' => function ($query) {
+                $query->select(['id', 'name']);
+            }
+        ])
+            ->whereHas('reservationParticipants', function ($query) use ($participantId) {
+                $query->where('participant_id', $participantId);
+            })
+            ->get(['id', 'room_id', 'date_init', 'date_end', 'status'])
+            ->toArray();
+    }
+
     public function cancelReservationById(int $id): bool
     {
         return self::where('id', $id)

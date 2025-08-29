@@ -35,7 +35,8 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::prefix('reservation')->group(function () {
         Route::post('/create', [ReservationController::class, 'createReservation']);
         Route::get('/read-complete', [ReservationController::class, 'getReservationsComplete']);
-        Route::get('/read-complete/{roomId}', [ReservationController::class, 'getReservationByRoomIdComplete']);
+        Route::get('/read-complete-by-room/{roomId}', [ReservationController::class, 'getReservationByRoomIdComplete']);
+        Route::get('/read-complete-by-participant/{participantId}', [ReservationController::class, 'getReservationByParticipantIdComplete']);
         Route::patch('/cancel/{id}', [ReservationController::class, 'cancelReservation']);
     });
 });

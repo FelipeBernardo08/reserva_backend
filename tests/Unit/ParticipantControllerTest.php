@@ -19,12 +19,14 @@ class ParticipantControllerTest extends TestCase
 
         $mockRequest = Mockery::mock(CreateParticipantRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($mockRequestData);
 
         $mockCacheService = Mockery::mock(CacheService::class);
 
         $mockParticipantModel = Mockery::mock(Participant::class);
         $mockParticipantModel->shouldReceive('createParticipant')
+            ->once()
             ->with($mockRequestData['name'])
             ->andReturn([]);
 
@@ -52,14 +54,17 @@ class ParticipantControllerTest extends TestCase
 
         $mockRequest = Mockery::mock(CreateParticipantRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($mockRequestData);
 
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('increment')
+            ->once()
             ->with('participants', $mockResponseCreate);
 
         $mockParticipantModel = Mockery::mock(Participant::class);
         $mockParticipantModel->shouldReceive('createParticipant')
+            ->once()
             ->with($mockRequestData['name'])
             ->andReturn($mockResponseCreate);
 
@@ -75,6 +80,7 @@ class ParticipantControllerTest extends TestCase
     {
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('participants')
             ->andReturn([]);
         $mockCacheService->shouldReceive('create')
@@ -82,6 +88,7 @@ class ParticipantControllerTest extends TestCase
 
         $mockParticipantModel = Mockery::mock(Participant::class);
         $mockParticipantModel->shouldReceive('getAllParticipants')
+            ->once()
             ->andReturn([]);
 
         $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
@@ -104,14 +111,17 @@ class ParticipantControllerTest extends TestCase
 
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('participants')
             ->andReturn([]);
 
         $mockCacheService->shouldReceive('create')
+            ->once()
             ->with('participants', $mockReturn, 600);
 
         $mockParticipantModel = Mockery::mock(Participant::class);
         $mockParticipantModel->shouldReceive('getAllParticipants')
+            ->once()
             ->andReturn($mockReturn);
 
         $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
@@ -134,12 +144,9 @@ class ParticipantControllerTest extends TestCase
 
         $mockCacheService = Mockery::mock(CacheService::class);
         $mockCacheService->shouldReceive('read')
+            ->once()
             ->with('participants')
             ->andReturn($mockReturn);
-
-
-        $mockCacheService->shouldReceive('create')
-            ->with('participants', $mockReturn, 600);
 
         $mockParticipantModel = Mockery::mock(Participant::class);
 

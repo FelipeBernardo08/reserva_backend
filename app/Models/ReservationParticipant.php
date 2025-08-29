@@ -34,4 +34,11 @@ class ReservationParticipant extends Model
 
         return self::insert($data);
     }
+
+    public function deleteReservationParticipants(int $reservationId, array $participantIds): bool
+    {
+        return self::where('reservation_id', $reservationId)
+            ->whereIn('participant_id', $participantIds)
+            ->delete();
+    }
 }

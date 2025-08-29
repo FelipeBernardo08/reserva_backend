@@ -37,4 +37,19 @@ class Participant extends Model
                 'name' => $name
             ]);
     }
+
+    public function getParticipantDetails(int $id): array
+    {
+        return self::where('id', $id)
+            ->with([
+                'reservations' => function ($query) {
+                    $query->where('status', true)->select(['id', 'room_id', 'date_init', 'date_end']);
+                },
+                'reservations.room' => function ($query) {
+                    $query->select(['id', 'title', 'description']);
+                }
+            ])
+            ->get(['id', 'name'])
+            ->toArray();
+    }
 }

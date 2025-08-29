@@ -21,6 +21,45 @@ class ParticipantController extends Controller
         $this->cacheService = $cache;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/participant/create",
+     *     summary="Criar um participante",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Participante"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados do participante",
+     *         @OA\JsonContent(
+     *             required={"name"},
+     *             @OA\Property(property="name", type="string", example="João")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Participante criado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example="1"),
+     *                 @OA\Property(property="name", type="string", example="João"),
+     *                 @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                 @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro ao criar participante!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Participante não foi criado, tente novamente mais tarde!")
+     *         )
+     *     )
+     * )
+     */
     public function createParticipant(CreateParticipantRequest $request): object
     {
         try {
@@ -36,6 +75,40 @@ class ParticipantController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/participant/read-all",
+     *     summary="Ler todos participantes",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Participante"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Participantes encontrados!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="name", type="string", example="João"),
+     *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhum participante encontrado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Nenhum participante cadastrado até o momento!")
+     *         )
+     *     )
+     * )
+     */
     public function getAllParticipants(): object
     {
         try {

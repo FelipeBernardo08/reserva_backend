@@ -21,6 +21,55 @@ class RoomController extends Controller
         $this->cacheService = $cache;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/room/create",
+     *     summary="Criar uma sala",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sala"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados do sala",
+     *         @OA\JsonContent(
+     *             required={"title"},
+     *             @OA\Property(property="title", type="string", example="Auditório"),
+     *             @OA\Property(property="description", type="string", example="Auditório do primeiro andar")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sala criada!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example="1"),
+     *                 @OA\Property(property="title", type="string", example="Auditório"),
+     *                 @OA\Property(property="description", type="string", example="Auditório do primeiro andar"),
+     *                 @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                 @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro ao criar sala!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Sala não pode ser criada no momento, tente novamente mais tarde!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=409,
+     *         description="Erro ao criar sala repetidamente!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Sala existente!")
+     *         )
+     *     )
+     * )
+     */
     public function createRoom(CreateRoomRequest $request): object
     {
         try {
@@ -40,6 +89,41 @@ class RoomController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/room/read-all",
+     *     summary="Ler todas as salas",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sala"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Salas encontradas!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="title", type="string", example="Auditório"),
+     *                      @OA\Property(property="description", type="string", example="Auditório do primeiro andar"),
+     *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhuma participante encontrado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Nenhuma sala cadastrada até o momento.")
+     *         )
+     *     )
+     * )
+     */
     public function getAllRooms(): object
     {
         try {

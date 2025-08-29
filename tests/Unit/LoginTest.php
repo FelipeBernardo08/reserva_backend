@@ -15,6 +15,7 @@ class LoginTest extends TestCase
     {
         $mockRequest = Mockery::mock(LoginRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn([
                 'email' => 'user@email.com',
                 'password' => '123'
@@ -24,6 +25,7 @@ class LoginTest extends TestCase
 
         $userModelMock = Mockery::mock(User::class);
         $userModelMock->shouldReceive('getUserByEmail')
+            ->once()
             ->with('user@email.com')
             ->andReturn([]);
 
@@ -44,16 +46,19 @@ class LoginTest extends TestCase
 
         $mockRequest = Mockery::mock(LoginRequest::class);
         $mockRequest->shouldReceive('all')
+            ->once()
             ->andReturn($userMock);
 
         $userModelMock = Mockery::mock(User::class);
 
         $userModelMock = Mockery::mock(User::class);
         $userModelMock->shouldReceive('getUserByEmail')
+            ->once()
             ->with('user@email.com')
             ->andReturn($userMock);
 
         Auth::shouldReceive('attempt')
+            ->once()
             ->with($userMock)
             ->andReturn(false);
 

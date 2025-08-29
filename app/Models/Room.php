@@ -14,6 +14,11 @@ class Room extends Model
         'description'
     ];
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'room_id');
+    }
+
     public function createRoom(string $title, string $description): array
     {
         return self::create([
@@ -32,5 +37,15 @@ class Room extends Model
     public function getAllRooms(): array
     {
         return self::get()->toArray();
+    }
+
+    public function getRoomDetails(int $id): array
+    {
+        return self::where('id', $id)
+            ->with([
+                'reservations' => function ($query) {}
+            ])
+            ->get()
+            ->toArray();
     }
 }

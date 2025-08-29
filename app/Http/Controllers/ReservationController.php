@@ -75,6 +75,19 @@ class ReservationController extends Controller
         }
     }
 
+    public function getReservationByParticipantIdComplete(int $participantId): object
+    {
+        try {
+            $reservations = $this->reservationModel->getReservationByParticipantIdComplete($participantId);
+            if (empty($reservations)) {
+                return response()->json(['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function cancelReservation(CancelReservationRequest $request): object
     {
         try {
