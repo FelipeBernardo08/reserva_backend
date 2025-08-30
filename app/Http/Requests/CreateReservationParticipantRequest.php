@@ -22,7 +22,7 @@ class CreateReservationParticipantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roomId' => 'required|integer',
+            'reservationId' => 'required|integer',
             'reservationParticipants' => 'required|array'
         ];
     }
@@ -30,8 +30,8 @@ class CreateReservationParticipantRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'roomId.required' => 'RoomId não fornecido!',
-            'roomId.integer' => 'RoomId deve ser do tipo numérico.',
+            'reservationId.required' => 'reservationId não fornecido!',
+            'reservationId.integer' => 'reservationId deve ser do tipo numérico.',
             'reservationParticipants.required' => 'Participantes não informados.',
             'reservationParticipants.array' => 'Os participantes devem estar em formato de array.',
         ];

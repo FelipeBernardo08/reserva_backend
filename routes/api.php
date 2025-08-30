@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReservationParticipantController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,10 @@ Route::middleware(['jwt.auth'])->group(function () {
         Route::get('/read-complete-by-room/{roomId}', [ReservationController::class, 'getReservationByRoomIdComplete']);
         Route::get('/read-complete-by-participant/{participantId}', [ReservationController::class, 'getReservationByParticipantIdComplete']);
         Route::patch('/cancel', [ReservationController::class, 'cancelReservation']);
+    });
+
+    Route::prefix('reservation-participant')->group(function () {
+        Route::post('/create', [ReservationParticipantController::class, 'createReservationParticipant']);
+        Route::put('/remove', [ReservationParticipantController::class, 'deleteReservationParticipant']);
     });
 });

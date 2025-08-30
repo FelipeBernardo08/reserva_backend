@@ -22,6 +22,47 @@ class ReservationParticipantController extends Controller
         $this->cacheService = $cache;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/reservation-participant/create",
+     *     summary="Criar um participante em uma reserva",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Prticipante Reserva"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados do participante e da reserva",
+     *         @OA\JsonContent(
+     *             required={"reservationId", "reservationParticipants"},
+     *             @OA\Property(property="reservationId", type="integer", example=1),
+     *             @OA\Property(
+     *                  property="reservationParticipants",
+     *                  type="array",
+     *                  @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Participante(s) adicionado(s)!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="message", type="string", example="Participante(s) adicionado(s) com sucesso!")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro ao adicionar.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="error", type="string", example="Erro ao criar participante(s) na reserva, tente novamente mais tarde!")
+     *         )
+     *     )
+     * )
+     */
     public function createReservationParticipant(CreateReservationParticipantRequest $request): object
     {
         try {
@@ -37,6 +78,47 @@ class ReservationParticipantController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/reservation-participant/remove",
+     *     summary="Remove um participante de uma reserva",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Prticipante Reserva"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados do participante e da reserva",
+     *         @OA\JsonContent(
+     *             required={"reservationId", "reservationParticipants"},
+     *             @OA\Property(property="reservationId", type="integer", example=1),
+     *             @OA\Property(
+     *                  property="reservationParticipants",
+     *                  type="array",
+     *                  @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Participante(s) removido(s)!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="message", type="string", example="Participante(s) removido(s) com sucesso!")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Erro ao remover.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="error", type="string", example="Erro ao remover participante(s) na reserva, tente novamente mais tarde!")
+     *         )
+     *     )
+     * )
+     */
     public function deleteReservationParticipant(DeleteReservationParticipantRequest $request): object
     {
         try {
