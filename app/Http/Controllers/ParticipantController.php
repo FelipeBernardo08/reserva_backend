@@ -114,11 +114,11 @@ class ParticipantController extends Controller
         try {
             $participantsCache = $this->cacheService->read('participants');
             $participants = empty($participantsCache) ? $this->participantModel->getAllParticipants() : $participantsCache;
-            if (empty($participantsCache)) {
-                $this->cacheService->create('participants', $participants, 600);
-            }
             if (empty($participants)) {
                 return response()->json(['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], Response::HTTP_NOT_FOUND);
+            }
+            if (empty($participantsCache)) {
+                $this->cacheService->create('participants', $participants, 600);
             }
             return response()->json(['success' => true, 'data' => $participants], Response::HTTP_OK);
         } catch (Exception $e) {

@@ -14,6 +14,8 @@ class LoginTest extends TestCase
     public function test_login_failed_user_not_found(): void
     {
         $mockRequest = Mockery::mock(LoginRequest::class);
+        $userModelMock = Mockery::mock(User::class);
+
         $mockRequest->shouldReceive('all')
             ->once()
             ->andReturn([
@@ -21,9 +23,6 @@ class LoginTest extends TestCase
                 'password' => '123'
             ]);
 
-        $userModelMock = Mockery::mock(User::class);
-
-        $userModelMock = Mockery::mock(User::class);
         $userModelMock->shouldReceive('getUserByEmail')
             ->once()
             ->with('user@email.com')
@@ -39,19 +38,18 @@ class LoginTest extends TestCase
 
     public function test_login_failed_user_unauthorized(): void
     {
+        $mockRequest = Mockery::mock(LoginRequest::class);
+        $userModelMock = Mockery::mock(User::class);
+
         $userMock = [
             'email' => 'user@email.com',
             'password' => '123'
         ];
 
-        $mockRequest = Mockery::mock(LoginRequest::class);
         $mockRequest->shouldReceive('all')
             ->once()
             ->andReturn($userMock);
 
-        $userModelMock = Mockery::mock(User::class);
-
-        $userModelMock = Mockery::mock(User::class);
         $userModelMock->shouldReceive('getUserByEmail')
             ->once()
             ->with('user@email.com')
@@ -72,6 +70,9 @@ class LoginTest extends TestCase
 
     public function test_login_success(): void
     {
+        $mockRequest = Mockery::mock(LoginRequest::class);
+        $userModelMock = Mockery::mock(User::class);
+
         $userMock = [
             'email' => 'user@email.com',
             'password' => '123'
@@ -79,13 +80,9 @@ class LoginTest extends TestCase
 
         $tokenMock = 'absidj9817312931hkh';
 
-        $mockRequest = Mockery::mock(LoginRequest::class);
         $mockRequest->shouldReceive('all')
             ->andReturn($userMock);
 
-        $userModelMock = Mockery::mock(User::class);
-
-        $userModelMock = Mockery::mock(User::class);
         $userModelMock->shouldReceive('getUserByEmail')
             ->with('user@email.com')
             ->andReturn($userMock);

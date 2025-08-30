@@ -129,11 +129,11 @@ class RoomController extends Controller
         try {
             $roomCache = $this->cacheService->read('rooms');
             $rooms = empty($roomCache) ? $this->roomModel->getAllRooms() : $roomCache;
-            if (empty($roomCache)) {
-                $this->cacheService->create('rooms', $rooms, 600);
-            }
             if (empty($rooms)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], Response::HTTP_NOT_FOUND);
+            }
+            if (empty($roomCache)) {
+                $this->cacheService->create('rooms', $rooms, 600);
             }
             return response()->json(['success' => true, 'data' => $rooms], Response::HTTP_OK);
         } catch (Exception $e) {

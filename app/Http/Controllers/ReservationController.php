@@ -52,9 +52,13 @@ class ReservationController extends Controller
     public function getReservationsComplete(): object
     {
         try {
-            $reservations = $this->reservationModel->getReservationsComplete();
+            $reservationsCache = $this->cacheService->read('reservations');
+            $reservations = empty($reservationsCache) ? $this->reservationModel->getReservationsComplete() : $reservationsCache;
             if (empty($reservations)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], Response::HTTP_NOT_FOUND);
+            }
+            if (empty($reservationsCache)) {
+                $this->cacheService->create('reservations', $reservations, 600);
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -65,9 +69,13 @@ class ReservationController extends Controller
     public function getReservationByRoomIdComplete(int $roomId): object
     {
         try {
-            $reservations = $this->reservationModel->getReservationByRoomIdComplete($roomId);
+            $reservationsCache = $this->cacheService->read('reservations');
+            $reservations = empty($reservationsCache) ? $this->reservationModel->getReservationByRoomIdComplete($roomId) : $reservationsCache;
             if (empty($reservations)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], Response::HTTP_NOT_FOUND);
+            }
+            if (empty($reservationsCache)) {
+                $this->cacheService->create('reservations', $reservations, 600);
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -78,9 +86,13 @@ class ReservationController extends Controller
     public function getReservationByParticipantIdComplete(int $participantId): object
     {
         try {
-            $reservations = $this->reservationModel->getReservationByParticipantIdComplete($participantId);
+            $reservationsCache = $this->cacheService->read('reservations');
+            $reservations = empty($reservationsCache) ? $this->reservationModel->getReservationByParticipantIdComplete($participantId) : $reservationsCache;
             if (empty($reservations)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], Response::HTTP_NOT_FOUND);
+            }
+            if (empty($reservationsCache)) {
+                $this->cacheService->create('reservations', $reservations, 600);
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -96,6 +108,7 @@ class ReservationController extends Controller
             if (!$responseCancelReservation) {
                 return response()->json(['success' => false, 'error' => 'Reserva não pode ser cancelada, tente novamente mais tarde!'], Response::HTTP_OK);
             }
+            $this->cacheService->delete('reservations');
             return response()->json(['success' => true, 'data' => ['message' => 'Reserva cancelada com sucesso!']], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
