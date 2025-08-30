@@ -43,7 +43,7 @@ class ParticipantController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                 @OA\Property(property="id", type="integer", example="1"),
+     *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="João"),
      *                 @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
      *                 @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
@@ -91,7 +91,7 @@ class ParticipantController extends Controller
      *                  type="array",
      *                  @OA\Items(
      *                      type="object",
-     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="id", type="integer", example=1),
      *                      @OA\Property(property="name", type="string", example="João"),
      *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
      *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")

@@ -139,7 +139,7 @@
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
-                                                    "example": "1"
+                                                    "example": 1
                                                 },
                                                 "name": {
                                                     "type": "string",
@@ -214,7 +214,7 @@
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer",
-                                                        "example": "1"
+                                                        "example": 1
                                                     },
                                                     "name": {
                                                         "type": "string",
@@ -251,6 +251,627 @@
                                         "error": {
                                             "type": "string",
                                             "example": "Nenhum participante cadastrado até o momento!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reservation/create": {
+            "post": {
+                "tags": [
+                    "Reserva"
+                ],
+                "summary": "Criar uma reserva",
+                "operationId": "ea0a9c2ec34a65661203f4da2891426d",
+                "requestBody": {
+                    "description": "Dados da reserva",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "roomId",
+                                    "dateInit",
+                                    "dateEnd"
+                                ],
+                                "properties": {
+                                    "roomId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "dateInit": {
+                                        "type": "string",
+                                        "example": "2025-08-29 21:58"
+                                    },
+                                    "dateEnd": {
+                                        "type": "string",
+                                        "example": "2025-08-29 22:58"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reserva criada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "room_id": {
+                                                    "type": "string",
+                                                    "example": 1
+                                                },
+                                                "dateInit": {
+                                                    "type": "string",
+                                                    "example": "2025-08-29 22:01:00"
+                                                },
+                                                "dateEnd": {
+                                                    "type": "string",
+                                                    "example": "2025-08-29 23:01:00"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2025-08-29 00:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2025-08-29 00:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Período de reserva indisponível!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Sala reservada na data requerida. Por favor, escolha outra data!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reservation/read-complete": {
+            "get": {
+                "tags": [
+                    "Reserva"
+                ],
+                "summary": "Ler todas reservas",
+                "operationId": "6f83098ec399f7c110fa7d3963394cdc",
+                "responses": {
+                    "200": {
+                        "description": "Reservas encontradas!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "room_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "date_init": {
+                                                        "type": "string",
+                                                        "example": "2025-08-30 00:00:00"
+                                                    },
+                                                    "date_end": {
+                                                        "type": "string",
+                                                        "example": "2025-09-01 00:00:00"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "room": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sala de Reunião Marte"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": ""
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reservation_participants": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "reservation_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "João"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma reserva encontrada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nenhuma reserva cadastrada no momento!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reservation/read-complete-by-room/{id}": {
+            "get": {
+                "tags": [
+                    "Reserva"
+                ],
+                "summary": "Ler todas reservas filtradas por sala",
+                "operationId": "77d5d5721019c27afc8cc9dd351f90ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da reserva",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reservas encontradas!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "room_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "date_init": {
+                                                        "type": "string",
+                                                        "example": "2025-08-30 00:00:00"
+                                                    },
+                                                    "date_end": {
+                                                        "type": "string",
+                                                        "example": "2025-09-01 00:00:00"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "room": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sala de Reunião Marte"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": ""
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reservation_participants": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "reservation_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "João"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma reserva encontrada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nenhuma reserva cadastrada no momento!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reservation/read-complete-by-participant/{id}": {
+            "get": {
+                "tags": [
+                    "Reserva"
+                ],
+                "summary": "Ler todas reservas filtradas por participante",
+                "operationId": "5955f612453fe24afd7be7b8cfc5e07e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da reserva",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reservas encontradas!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "room_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "date_init": {
+                                                        "type": "string",
+                                                        "example": "2025-08-30 00:00:00"
+                                                    },
+                                                    "date_end": {
+                                                        "type": "string",
+                                                        "example": "2025-09-01 00:00:00"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "room": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sala de Reunião Marte"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": ""
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reservation_participants": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "reservation_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "participant": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "João"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma reserva encontrada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nenhuma reserva cadastrada no momento!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reservation/cancel": {
+            "patch": {
+                "tags": [
+                    "Reserva"
+                ],
+                "summary": "Cancelar uma reserva",
+                "operationId": "68682b728f57b25a4695cb067a09cbb2",
+                "requestBody": {
+                    "description": "Id da reserva",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reserva cancelada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "message": {
+                                                        "type": "string",
+                                                        "example": "Reserva cancelada com sucesso!"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao cancelar reserva!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Reserva não pode ser cancelada, tente novamente mais tarde!"
                                         }
                                     },
                                     "type": "object"
@@ -485,6 +1106,10 @@
         {
             "name": "Participante",
             "description": "Participante"
+        },
+        {
+            "name": "Reserva",
+            "description": "Reserva"
         },
         {
             "name": "Sala",
