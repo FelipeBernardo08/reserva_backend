@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateReservationParticipantRequest;
+use App\Http\Requests\DeleteReservationParticipantRequest;
 use App\Models\ReservationParticipant;
 use App\Services\CacheService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ReservationParticipantController extends Controller
@@ -21,12 +22,12 @@ class ReservationParticipantController extends Controller
         $this->cacheService = $cache;
     }
 
-    public function createReservationParticipant(Request $request): object
+    public function createReservationParticipant(CreateReservationParticipantRequest $request): object
     {
         try {
             $input = $request->all();
-            $responseCreateReservationParticipant = $this->reservationParticipantModel->createReservationParticipants($input['reservationId'], $input['']);
-            if (empty($responseCreateReservationParticipant)) {
+            $responseCreateReservationParticipant = $this->reservationParticipantModel->createReservationParticipants($input['reservationId'], $input['reservationParticipants']);
+            if (!$responseCreateReservationParticipant) {
                 return response()->json(['success' => false, 'error' => 'Erro ao criar participante(s) na reserva, tente novamente mais tarde!'], Response::HTTP_BAD_REQUEST);
             }
             $this->cacheService->delete('reservations');
@@ -36,11 +37,11 @@ class ReservationParticipantController extends Controller
         }
     }
 
-    public function deleteReservationParticipant(Request $request): object
+    public function deleteReservationParticipant(DeleteReservationParticipantRequest $request): object
     {
         try {
             $input = $request->all();
-            $responseCreateReservationParticipant = $this->reservationParticipantModel->deleteReservationParticipants($input['reservationId'], $input['']);
+            $responseCreateReservationParticipant = $this->reservationParticipantModel->deleteReservationParticipants($input['reservationId'], $input['reservationParticipants']);
             if (empty($responseCreateReservationParticipant)) {
                 return response()->json(['success' => false, 'error' => 'Erro ao remover participante(s) na reserva, tente novamente mais tarde!'], Response::HTTP_BAD_REQUEST);
             }
