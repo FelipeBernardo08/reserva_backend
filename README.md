@@ -14,7 +14,7 @@ Este é um projeto backend para gerenciamento de reservas de salas/ambientes no 
 
 Antes de iniciar, verifique os seguintes pré-requisitos:
 
-- **Portas 8000 e 4200 livres**
+- **Portas 8000 livre**
 - **Docker instalado**  
   [Clique aqui para baixar o Docker](https://www.docker.com/)
 
@@ -25,7 +25,7 @@ docker network create laravel
 
 ### 2. Criar arquivo .env na raiz do projeto, utilizar como base .env.example
 
-### 3. Buildar projeto
+### 3. Build, execute o comando na raiz do projeto
 ```bash
 docker compose up -d
 ```
