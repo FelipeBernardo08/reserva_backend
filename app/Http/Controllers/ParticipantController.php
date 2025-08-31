@@ -71,7 +71,7 @@ class ParticipantController extends Controller
             $this->cacheService->delete('participants');
             return response()->json(['success' => true, 'data' => $responseCreateParticipant], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -122,7 +122,7 @@ class ParticipantController extends Controller
             }
             return response()->json(['success' => true, 'data' => $participants], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -176,7 +176,7 @@ class ParticipantController extends Controller
             }
             return response()->json(['success' => true, 'data' => $participants], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

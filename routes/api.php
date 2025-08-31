@@ -51,7 +51,6 @@ Route::middleware(['jwt.auth'])->group(function () {
     });
 
     Route::prefix('reservation-participant')->group(function () {
-        Route::post('/create', [ReservationParticipantController::class, 'createReservationParticipant']);
-        Route::put('/remove', [ReservationParticipantController::class, 'deleteReservationParticipant']);
+        Route::put('/update', [ReservationParticipantController::class, 'updateReservationParticipant']);
     });
 });

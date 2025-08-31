@@ -85,7 +85,7 @@ class RoomController extends Controller
             $this->cacheService->delete('rooms');
             return response()->json(['success' => true, 'data' => $responseCreateRoom], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -137,7 +137,7 @@ class RoomController extends Controller
             }
             return response()->json(['success' => true, 'data' => $rooms], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -192,7 +192,7 @@ class RoomController extends Controller
             }
             return response()->json(['success' => true, 'data' => $rooms], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

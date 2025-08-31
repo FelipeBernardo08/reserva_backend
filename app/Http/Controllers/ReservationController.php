@@ -90,7 +90,7 @@ class ReservationController extends Controller
             $this->cacheService->delete('participants');
             return response()->json(['success' => true, 'data' => $responseCreateReservation], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -167,7 +167,7 @@ class ReservationController extends Controller
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -246,7 +246,7 @@ class ReservationController extends Controller
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -326,7 +326,7 @@ class ReservationController extends Controller
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -406,7 +406,7 @@ class ReservationController extends Controller
             }
             return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -461,7 +461,7 @@ class ReservationController extends Controller
             $this->cacheService->delete('reservations');
             return response()->json(['success' => true, 'data' => ['message' => 'Reserva cancelada com sucesso!']], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['success' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

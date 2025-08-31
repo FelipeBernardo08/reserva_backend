@@ -35,6 +35,13 @@ class Reservation extends Model
         ])->toArray();
     }
 
+    public function readReservationById(int $id): array
+    {
+        return self::where('id', $id)
+            ->get()
+            ->toArray();
+    }
+
     public function getReservationActiveByRoomId(int $roomId): array
     {
         return self::where('room_id', $roomId)

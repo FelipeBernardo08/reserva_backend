@@ -1265,104 +1265,15 @@
                 ]
             }
         },
-        "/api/reservation-participant/create": {
-            "post": {
-                "tags": [
-                    "Prticipante Reserva"
-                ],
-                "summary": "Criar um participante em uma reserva",
-                "operationId": "0ceab75a1bb68698cd9a519128da0d9e",
-                "requestBody": {
-                    "description": "Dados do participante e da reserva",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "reservationId",
-                                    "reservationParticipants"
-                                ],
-                                "properties": {
-                                    "reservationId": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "reservationParticipants": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer",
-                                            "example": 1
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Participante(s) adicionado(s)!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": "Participante(s) adicionado(s) com sucesso!"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erro ao adicionar.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Erro ao criar participante(s) na reserva, tente novamente mais tarde!"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/reservation-participant/remove": {
+        "/api/reservation-participant/update": {
             "put": {
                 "tags": [
-                    "Prticipante Reserva"
+                    "Participantes da Reserva"
                 ],
-                "summary": "Remove um participante de uma reserva",
-                "operationId": "02732648fb861b68409878513d2247a5",
+                "summary": "Atualiza os participantes de uma reserva",
+                "operationId": "96f543ec57cc552fd61256b433844c1d",
                 "requestBody": {
-                    "description": "Dados do participante e da reserva",
+                    "description": "Dados da reserva e participante",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1380,7 +1291,7 @@
                                         "type": "array",
                                         "items": {
                                             "type": "integer",
-                                            "example": 1
+                                            "example": 2
                                         }
                                     }
                                 },
@@ -1391,7 +1302,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Participante(s) removido(s)!",
+                        "description": "Participantes atualizados",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1404,7 +1315,7 @@
                                             "properties": {
                                                 "message": {
                                                     "type": "string",
-                                                    "example": "Participante(s) removido(s) com sucesso!"
+                                                    "example": "Participantes atualizados com sucesso!"
                                                 }
                                             },
                                             "type": "object"
@@ -1416,7 +1327,7 @@
                         }
                     },
                     "400": {
-                        "description": "Erro ao remover.",
+                        "description": "Erro na atualização",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1427,7 +1338,7 @@
                                         },
                                         "error": {
                                             "type": "string",
-                                            "example": "Erro ao remover participante(s) na reserva, tente novamente mais tarde!"
+                                            "example": "Reserva não encontrada!"
                                         }
                                     },
                                     "type": "object"
@@ -1760,8 +1671,8 @@
             "description": "Reserva"
         },
         {
-            "name": "Prticipante Reserva",
-            "description": "Prticipante Reserva"
+            "name": "Participantes da Reserva",
+            "description": "Participantes da Reserva"
         },
         {
             "name": "Sala",

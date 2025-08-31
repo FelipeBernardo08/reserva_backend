@@ -71,7 +71,7 @@ class AuthController extends Controller
 
             return response()->json(['success' => true, 'data' => ['token' => $token]], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['succes' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -116,7 +116,7 @@ class AuthController extends Controller
             $user = auth('api')->user();
             return response()->json(['success' => true, 'data' => $user], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['succes' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -157,7 +157,7 @@ class AuthController extends Controller
             auth()->logout(true);
             return response()->json(['success' => true, 'data' => ['message' => 'Sessão finalizada!']], Response::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['succes' => false, 'error' => 'Erro interno, contate o suporte'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
