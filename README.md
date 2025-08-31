@@ -23,7 +23,7 @@ Antes de iniciar, verifique os seguintes pré-requisitos:
 docker network create laravel
 ```
 
-### 2. Criar arquivo .env na raiz do projeto, utilizar como base .env.example
+### 2. Criar arquivo .env na raiz do projeto e definir uma senha para DB_PASSWORD, utilizar como base .env.example
 
 ### 3. Build, execute o comando na raiz do projeto
 ```bash
