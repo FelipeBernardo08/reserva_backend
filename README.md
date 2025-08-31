@@ -51,3 +51,10 @@ php artisan test
 
 2 - [Documentação Swagger - *Necessário rodar o projeto*](http://localhost:8000/api/documentation)
 
+---
+
+## 🔐 Credencial de acesso padrão
+
+E-mail: admin@email.com
+Senha: 1234
+
