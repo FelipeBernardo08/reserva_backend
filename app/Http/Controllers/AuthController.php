@@ -74,4 +74,24 @@ class AuthController extends Controller
             return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function me(): object
+    {
+        try {
+            $user = auth('api')->user();
+            return response()->json(['success' => true, 'data' => $user], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function logout(): object
+    {
+        try {
+            auth()->logout(true);
+            return response()->json(['success' => true, 'data' => ['message' => 'Sessão finalizada!']], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['succes' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

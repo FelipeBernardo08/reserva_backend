@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  skedway_app:
+  skedway_backend_app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: skedway_app
+    container_name: skedway_backend_app
     ports:
       - "8000:80"
     volumes:
@@ -13,8 +13,8 @@ services:
     networks:
       - laravel
     depends_on:
-      - skedway_db
-      - skedway_redis
+      - skedway_backend_db
+      - skedway_backend_redis
     environment:
       APP_NAME: ${APP_NAME}
       APP_ENV: ${APP_ENV}
@@ -25,9 +25,9 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
 
-  skedway_db:
+  skedway_backend_db:
     image: mysql:8.0
-    container_name: skedway_db
+    container_name: skedway_backend_db
     ports:
       - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
@@ -40,9 +40,9 @@ services:
     networks:
       - laravel
 
-  skedway_redis:
+  skedway_backend_redis:
     image: redis:alpine
-    container_name: skedway_redis
+    container_name: skedway_backend_redis
     ports:
       - "6379:6379"
     networks:
@@ -53,3 +53,4 @@ volumes:
 
 networks:
   laravel:
+    external: true

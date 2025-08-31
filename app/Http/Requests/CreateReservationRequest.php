@@ -25,7 +25,7 @@ class CreateReservationRequest extends FormRequest
             'roomId' => 'required|integer',
             'dateInit' => 'required|date_format:Y-m-d H:i',
             'dateEnd' => 'required|date_format:Y-m-d H:i|after:dateInit',
-            'reservationParticipants' => 'array'
+            'reservationParticipants' => 'required|array'
         ];
     }
 
@@ -40,6 +40,7 @@ class CreateReservationRequest extends FormRequest
             'dateEnd.date_format' => 'Data de fim deve estar no formato: YYYY-MM-DD HH:MM.',
             'dateEnd.after' => 'A data de fim deve ser posterior à data de início.',
             'reservationParticipants.array' => 'Os participantes devem estar em formato de array.',
+            'reservationParticipants.required' => 'Participantes não informados.',
         ];
     }
 }

@@ -23,6 +23,12 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['jwt.auth'])->group(function () {
+
+    Route::prefix('auth')->group(function () {
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/logout', [AuthController::class, 'logout']);
+    });
+
     Route::prefix('participant')->group(function () {
         Route::post('/create', [ParticipantController::class, 'createParticipant']);
         Route::get('/read-all', [ParticipantController::class, 'getAllParticipants']);

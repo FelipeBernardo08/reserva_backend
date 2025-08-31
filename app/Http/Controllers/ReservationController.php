@@ -85,7 +85,7 @@ class ReservationController extends Controller
             if (!empty($input['reservationParticipants'])) {
                 $this->reservationParticipantModel->createReservationParticipants($responseCreateReservation['id'], $input['reservationParticipants']);
             }
-            $this->cacheService->increment('reservations', $responseCreateReservation);
+            $this->cacheService->delete('reservations');
             return response()->json(['success' => true, 'data' => $responseCreateReservation], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

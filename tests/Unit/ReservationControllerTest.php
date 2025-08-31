@@ -131,9 +131,9 @@ class ReservationControllerTest extends TestCase
             ->once()
             ->andReturn($mockRequestData);
 
-        $mockCacheService->shouldReceive('increment')
+        $mockCacheService->shouldReceive('delete')
             ->once()
-            ->with('reservations', $mockReturnCreateReservation);
+            ->with('reservations');
 
         $mockReservationModel->shouldReceive('getReservationActiveByRoomId')
             ->once()
@@ -185,9 +185,9 @@ class ReservationControllerTest extends TestCase
             ->once()
             ->andReturn($mockRequestData);
 
-        $mockCacheService->shouldReceive('increment')
+        $mockCacheService->shouldReceive('delete')
             ->once()
-            ->with('reservations', $mockReturnCreateReservation);
+            ->with('reservations');
 
         $mockReservationModel->shouldReceive('getReservationActiveByRoomId')
             ->once()
