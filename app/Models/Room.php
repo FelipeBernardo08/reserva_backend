@@ -36,14 +36,22 @@ class Room extends Model
 
     public function getAllRooms(): array
     {
-        return self::get()->toArray();
+        return self::with([
+            'reservations' => function ($query) {
+                $query->where('status', 1)->select(['id', 'room_id']);
+            }
+        ])
+            ->get()
+            ->toArray();
     }
 
     public function getRoomDetails(int $id): array
     {
         return self::where('id', $id)
             ->with([
-                'reservations' => function ($query) {}
+                'reservations' => function ($query) {
+                    $query->select();
+                }
             ])
             ->get()
             ->toArray();

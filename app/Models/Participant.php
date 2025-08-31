@@ -15,7 +15,7 @@ class Participant extends Model
 
     public function reservations()
     {
-        return $this->hasMany(Reservation::class, 'participant_id');
+        return $this->hasMany(ReservationParticipant::class, 'participant_id');
     }
 
     public function createParticipant(string $name): array
@@ -27,7 +27,13 @@ class Participant extends Model
 
     public function getAllParticipants(): array
     {
-        return self::get()->toArray();
+        return self::with([
+            'reservations' => function ($query) {
+                $query->select(['id', 'participant_id']);
+            }
+        ])
+            ->get()
+            ->toArray();
     }
 
     public function updateParticipant(int $id, string $name): bool

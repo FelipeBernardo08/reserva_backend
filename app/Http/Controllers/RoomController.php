@@ -82,7 +82,7 @@ class RoomController extends Controller
             if (empty($responseCreateRoom)) {
                 return response()->json(['success' => false, 'error' => 'Sala não pode ser criada no momento, tente novamente mais tarde!'], Response::HTTP_BAD_REQUEST);
             }
-            $this->cacheService->increment('rooms', $responseCreateRoom);
+            $this->cacheService->delete('rooms');
             return response()->json(['success' => true, 'data' => $responseCreateRoom], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

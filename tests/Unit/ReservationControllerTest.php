@@ -300,11 +300,6 @@ class ReservationControllerTest extends TestCase
 
         $participantId = 1;
 
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn([]);
-
         $mockReservationModel->shouldReceive('getReservationByParticipantIdComplete')
             ->once()
             ->with($participantId)
@@ -318,7 +313,7 @@ class ReservationControllerTest extends TestCase
         $this->assertEquals((object)['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], $response->getData());
     }
 
-    public function test_get_reservations_by_participant_ok_with_cache(): void
+    public function test_get_reservations_by_participant_ok(): void
     {
         $mockReservationModel = Mockery::mock(Reservation::class);
         $mockReservationParticipantModel = Mockery::mock(ReservationParticipant::class);
@@ -333,44 +328,6 @@ class ReservationControllerTest extends TestCase
                 'updated_at' => 'XXXX-XX-XX XX:XX:XX'
             ]
         ];
-
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn($mockReturn);
-
-        $controller = new ReservationController($mockReservationModel, $mockReservationParticipantModel, $mockCacheService);
-
-        $response = $controller->getReservationByParticipantIdComplete($participantId);
-
-        $this->assertEquals(200, $response->status());
-        $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
-    }
-
-    public function test_get_reservations_by_participant_ok_no_cache(): void
-    {
-        $mockReservationModel = Mockery::mock(Reservation::class);
-        $mockReservationParticipantModel = Mockery::mock(ReservationParticipant::class);
-        $mockCacheService = Mockery::mock(CacheService::class);
-
-        $participantId = 1;
-
-        $mockReturn = [
-            (object)[
-                'name' => 'teste',
-                'created_at' => 'XXXX-XX-XX XX:XX:XX',
-                'updated_at' => 'XXXX-XX-XX XX:XX:XX'
-            ]
-        ];
-
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn([]);
-
-        $mockCacheService->shouldReceive('create')
-            ->once()
-            ->with('reservations', $mockReturn, 600);
 
         $mockReservationModel->shouldReceive('getReservationByParticipantIdComplete')
             ->once()
@@ -393,11 +350,6 @@ class ReservationControllerTest extends TestCase
 
         $roomId = 1;
 
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn([]);
-
         $mockReservationModel->shouldReceive('getReservationByRoomIdComplete')
             ->once()
             ->with($roomId)
@@ -411,7 +363,8 @@ class ReservationControllerTest extends TestCase
         $this->assertEquals((object)['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], $response->getData());
     }
 
-    public function test_get_reservations_by_room_ok_with_cache(): void
+
+    public function test_get_reservations_by_room_ok(): void
     {
         $mockReservationModel = Mockery::mock(Reservation::class);
         $mockReservationParticipantModel = Mockery::mock(ReservationParticipant::class);
@@ -426,44 +379,6 @@ class ReservationControllerTest extends TestCase
                 'updated_at' => 'XXXX-XX-XX XX:XX:XX'
             ]
         ];
-
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn($mockReturn);
-
-        $controller = new ReservationController($mockReservationModel, $mockReservationParticipantModel, $mockCacheService);
-
-        $response = $controller->getReservationByRoomIdComplete($roomId);
-
-        $this->assertEquals(200, $response->status());
-        $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
-    }
-
-    public function test_get_reservations_by_room_ok_no_cache(): void
-    {
-        $mockReservationModel = Mockery::mock(Reservation::class);
-        $mockReservationParticipantModel = Mockery::mock(ReservationParticipant::class);
-        $mockCacheService = Mockery::mock(CacheService::class);
-
-        $roomId = 1;
-
-        $mockReturn = [
-            (object)[
-                'name' => 'teste',
-                'created_at' => 'XXXX-XX-XX XX:XX:XX',
-                'updated_at' => 'XXXX-XX-XX XX:XX:XX'
-            ]
-        ];
-
-        $mockCacheService->shouldReceive('read')
-            ->once()
-            ->with('reservations')
-            ->andReturn([]);
-
-        $mockCacheService->shouldReceive('create')
-            ->once()
-            ->with('reservations', $mockReturn, 600);
 
         $mockReservationModel->shouldReceive('getReservationByRoomIdComplete')
             ->once()

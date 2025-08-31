@@ -68,7 +68,7 @@ class ParticipantController extends Controller
             if (empty($responseCreateParticipant)) {
                 return response()->json(['success' => false, 'error' => 'Participante não foi criado, tente novamente mais tarde!'], Response::HTTP_BAD_REQUEST);
             }
-            $this->cacheService->increment('participants', $responseCreateParticipant);
+            $this->cacheService->delete('participants');
             return response()->json(['success' => true, 'data' => $responseCreateParticipant], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

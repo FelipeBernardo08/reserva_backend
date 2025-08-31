@@ -61,9 +61,9 @@ class ParticipantControllerTest extends TestCase
             ->once()
             ->andReturn($mockRequestData);
 
-        $mockCacheService->shouldReceive('increment')
+        $mockCacheService->shouldReceive('delete')
             ->once()
-            ->with('participants', $mockResponseCreate);
+            ->with('participants');
 
         $mockParticipantModel->shouldReceive('createParticipant')
             ->once()

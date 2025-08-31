@@ -100,9 +100,9 @@ class RoomControllerTest extends TestCase
             'updated_at' => 'XXXX-XX-XX XX:XX:XX'
         ];
 
-        $mockCacheService->shouldReceive('increment')
+        $mockCacheService->shouldReceive('delete')
             ->once()
-            ->with('rooms', $mockResponseCreate);
+            ->with('rooms');
 
         $mockRequest->shouldReceive('all')
             ->once()

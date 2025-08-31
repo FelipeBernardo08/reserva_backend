@@ -56,6 +56,7 @@ class Reservation extends Model
                 $query->select(['id', 'name']);
             }
         ])
+            ->orderBy('status', 'desc')
             ->get(['id', 'room_id', 'date_init', 'date_end', 'status'])
             ->toArray();
     }
