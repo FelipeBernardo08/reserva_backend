@@ -8,9 +8,9 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *     title="Backend API Rest Reservas Skedway",
+ *     title="API REST Skedway",
  *     version="1.0.0",
- *     description="Documentação da API Rest Reservas Skedway.",
+ *     description="Documentação Skedway.",
  *     @OA\Contact(
  *         email="bernardodev0809@gmail.com"
  *     )

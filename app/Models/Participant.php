@@ -49,10 +49,10 @@ class Participant extends Model
         return self::where('id', $id)
             ->with([
                 'reservationParticipant' => function ($query) {
-                    $query->where('status', true)->select(['id', 'room_id', 'date_init', 'date_end']);
+                    $query->select(['id', 'reservation_id', 'participant_id']);
                 },
                 'reservationParticipant.reservation' => function ($query) {
-                    $query->select(['id', 'room_id', 'date_init', 'date_end']);
+                    $query->select(['id', 'room_id', 'date_init', 'date_end', 'status']);
                 },
                 'reservationParticipant.reservation.room' => function ($query) {
                     $query->select(['id', 'title', 'description']);

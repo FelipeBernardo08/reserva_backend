@@ -138,13 +138,13 @@ class RoomControllerTest extends TestCase
             ->with('rooms')
             ->andReturn([]);
 
-        $mockRoomModel->shouldReceive('getAllRooms')
+        $mockRoomModel->shouldReceive('readAllRooms')
             ->once()
             ->andReturn($mockReturn);
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
 
-        $response = $controller->getAllRooms();
+        $response = $controller->readAllRooms();
 
         $this->assertEquals(404, $response->status());
         $this->assertEquals((object)['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], $response->getData());
@@ -173,13 +173,13 @@ class RoomControllerTest extends TestCase
             ->once()
             ->with('rooms', $mockReturn, 600);
 
-        $mockRoomModel->shouldReceive('getAllRooms')
+        $mockRoomModel->shouldReceive('readAllRooms')
             ->once()
             ->andReturn($mockReturn);
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
 
-        $response = $controller->getAllRooms();
+        $response = $controller->readAllRooms();
 
         $this->assertEquals(200, $response->status());
         $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
@@ -207,7 +207,59 @@ class RoomControllerTest extends TestCase
 
         $controller = new RoomController($mockRoomModel, $mockCacheService);
 
-        $response = $controller->getAllRooms();
+        $response = $controller->readAllRooms();
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
+    }
+
+    public function test_get_room_by_id_error(): void
+    {
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockRoomModel = Mockery::mock(Room::class);
+
+        $mockReturn = [];
+
+        $idRequest = 1;
+
+        $mockRoomModel->shouldReceive('readRoomDetails')
+            ->with($idRequest)
+            ->once()
+            ->andReturn($mockReturn);
+
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
+
+        $response = $controller->readRoomById($idRequest);
+
+        $this->assertEquals(404, $response->status());
+        $this->assertEquals((object)['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], $response->getData());
+    }
+
+    public function test_get_room_by_id_ok(): void
+    {
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockRoomModel = Mockery::mock(Room::class);
+
+        $mockReturn = [
+            (object)[
+                'id' => 1,
+                'title' => 'teste',
+                'description' => 'sala teste criada',
+                'created_at' => 'XXXX-XX-XX XX:XX:XX',
+                'updated_at' => 'XXXX-XX-XX XX:XX:XX'
+            ]
+        ];
+
+        $idRequest = 1;
+
+        $mockRoomModel->shouldReceive('readRoomDetails')
+            ->with($idRequest)
+            ->once()
+            ->andReturn($mockReturn);
+
+        $controller = new RoomController($mockRoomModel, $mockCacheService);
+
+        $response = $controller->readRoomById($idRequest);
 
         $this->assertEquals(200, $response->status());
         $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());

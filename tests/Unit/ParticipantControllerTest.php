@@ -90,13 +90,13 @@ class ParticipantControllerTest extends TestCase
         $mockCacheService->shouldReceive('create')
             ->with('participants', [], 600);
 
-        $mockParticipantModel->shouldReceive('getAllParticipants')
+        $mockParticipantModel->shouldReceive('readAllParticipants')
             ->once()
             ->andReturn([]);
 
         $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
 
-        $response = $controller->getAllParticipants();
+        $response = $controller->readAllParticipants();
 
         $this->assertEquals(404, $response->status());
         $this->assertEquals((object)['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], $response->getData());
@@ -124,13 +124,13 @@ class ParticipantControllerTest extends TestCase
             ->once()
             ->with('participants', $mockReturn, 600);
 
-        $mockParticipantModel->shouldReceive('getAllParticipants')
+        $mockParticipantModel->shouldReceive('readAllParticipants')
             ->once()
             ->andReturn($mockReturn);
 
         $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
 
-        $response = $controller->getAllParticipants();
+        $response = $controller->readAllParticipants();
 
         $this->assertEquals(200, $response->status());
         $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
@@ -157,7 +157,57 @@ class ParticipantControllerTest extends TestCase
 
         $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
 
-        $response = $controller->getAllParticipants();
+        $response = $controller->readAllParticipants();
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());
+    }
+
+    public function test_get_participant_by_id_error(): void
+    {
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockParticipantModel = Mockery::mock(Participant::class);
+
+        $mockReturn = [];
+
+        $idRequest = 1;
+
+        $mockParticipantModel->shouldReceive('readParticipantDetails')
+            ->once()
+            ->with($idRequest)
+            ->andReturn($mockReturn);
+
+        $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
+
+        $response = $controller->readParticipantById($idRequest);
+
+        $this->assertEquals(404, $response->status());
+        $this->assertEquals((object)['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], $response->getData());
+    }
+
+    public function test_get_participant_by_id_ok(): void
+    {
+        $mockCacheService = Mockery::mock(CacheService::class);
+        $mockParticipantModel = Mockery::mock(Participant::class);
+
+        $mockReturn = [
+            (object)[
+                'name' => 'teste',
+                'created_at' => 'XXXX-XX-XX XX:XX:XX',
+                'updated_at' => 'XXXX-XX-XX XX:XX:XX'
+            ]
+        ];
+
+        $idRequest = 1;
+
+        $mockParticipantModel->shouldReceive('readParticipantDetails')
+            ->once()
+            ->with($idRequest)
+            ->andReturn($mockReturn);
+
+        $controller = new ParticipantController($mockParticipantModel, $mockCacheService);
+
+        $response = $controller->readParticipantById($idRequest);
 
         $this->assertEquals(200, $response->status());
         $this->assertEquals((object)['success' => true, 'data' => $mockReturn], $response->getData());

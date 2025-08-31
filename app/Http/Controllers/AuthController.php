@@ -75,6 +75,41 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/me",
+     *     summary="Dados usuário autenticado",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Autenticação"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Dados encontrados!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="name", type="string", example="admin"),
+     *                      @OA\Property(property="email", type="string", example="example@email.com"),
+     *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Credenciais inválidas",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Não autorizado!")
+     *         )
+     *     )
+     * )
+     */
     public function me(): object
     {
         try {
@@ -85,6 +120,37 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/auth/logout",
+     *     summary="Logout",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Autenticação"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Deslogado com sucesso!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="message", type="string", example="Sessão finalizada!")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Credenciais inválidas",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Não autorizado!")
+     *         )
+     *     )
+     * )
+     */
     public function logout(): object
     {
         try {

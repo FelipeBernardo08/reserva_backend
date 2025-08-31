@@ -141,6 +141,48 @@ class RoomController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/room/read-by-id/{id}",
+     *     summary="Ler sala filtrada por id",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Sala"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da sala",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Salas encontradas!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="title", type="string", example="Auditório"),
+     *                      @OA\Property(property="description", type="string", example="Auditório do primeiro andar"),
+     *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhuma participante encontrado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Nenhuma sala cadastrada até o momento.")
+     *         )
+     *     )
+     * )
+     */
     public function readRoomById(int $id): object
     {
         try {

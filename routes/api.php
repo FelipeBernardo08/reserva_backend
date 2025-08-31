@@ -38,7 +38,7 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::prefix('room')->group(function () {
         Route::post('/create', [RoomController::class, 'createRoom']);
         Route::get('/read-all', [RoomController::class, 'readAllRooms']);
-        Route::get('/read-by-id/{id}', [RoomController::class, 'readAllRooms']);
+        Route::get('/read-by-id/{id}', [RoomController::class, 'readRoomById']);
     });
 
     Route::prefix('reservation')->group(function () {

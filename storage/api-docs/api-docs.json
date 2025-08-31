@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Backend API Rest Reservas Skedway",
-        "description": "Documentação da API Rest Reservas Skedway.",
+        "title": "API REST Skedway",
+        "description": "Documentação Skedway.",
         "contact": {
             "email": "bernardodev0809@gmail.com"
         },
@@ -95,6 +95,150 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Dados usuário autenticado",
+                "operationId": "b9abb1a7a74670a19c215c2c133f14d8",
+                "responses": {
+                    "200": {
+                        "description": "Dados encontrados!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "admin"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "example@email.com"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Não autorizado!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Logout",
+                "operationId": "a8dd056be3e98a38c657f73ed6cdef2d",
+                "responses": {
+                    "200": {
+                        "description": "Deslogado com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "message": {
+                                                        "type": "string",
+                                                        "example": "Sessão finalizada!"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Não autorizado!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/participant/create": {
@@ -196,10 +340,98 @@
                     "Participante"
                 ],
                 "summary": "Ler todos participantes",
-                "operationId": "7e7522ca90bcc120fb88fb480e10bb54",
+                "operationId": "6c4922d6a79f185520dfc608c963eb70",
                 "responses": {
                     "200": {
                         "description": "Participantes encontrados!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "João"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum participante encontrado!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nenhum participante cadastrado até o momento!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/participant/read-by-id/{id}": {
+            "get": {
+                "tags": [
+                    "Participante"
+                ],
+                "summary": "Ler participante filtrado por id",
+                "operationId": "5588773920e09be8e26fd7a07cb1e1d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do participante",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Participante encontrado!",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -532,7 +764,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Reservas encontradas!",
+                        "description": "Reserva encontrada!",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1338,7 +1570,99 @@
                     "Sala"
                 ],
                 "summary": "Ler todas as salas",
-                "operationId": "4a482cc5f5e6d458dc75f9b849add303",
+                "operationId": "48214369a00dccd2d3b1497383eece35",
+                "responses": {
+                    "200": {
+                        "description": "Salas encontradas!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Auditório"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Auditório do primeiro andar"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2025-08-29 00:00:00"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhuma participante encontrado!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "false"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Nenhuma sala cadastrada até o momento."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/room/read-by-id/{id}": {
+            "get": {
+                "tags": [
+                    "Sala"
+                ],
+                "summary": "Ler sala filtrada por id",
+                "operationId": "e9b3521900d0ba16cda8c9a86062075a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da sala",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Salas encontradas!",

@@ -86,6 +86,8 @@ class ReservationController extends Controller
                 $this->reservationParticipantModel->createReservationParticipants($responseCreateReservation['id'], $input['reservationParticipants']);
             }
             $this->cacheService->delete('reservations');
+            $this->cacheService->delete('rooms');
+            $this->cacheService->delete('participants');
             return response()->json(['success' => true, 'data' => $responseCreateReservation], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -184,7 +186,7 @@ class ReservationController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Reservas encontradas!",
+     *         description="Reserva encontrada!",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
      *             @OA\Property(

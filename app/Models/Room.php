@@ -38,7 +38,7 @@ class Room extends Model
     {
         return self::with([
             'reservations' => function ($query) {
-                $query->where('status', 1)->select(['id', 'room_id']);
+                $query->select(['id', 'room_id']);
             }
         ])
             ->get()
@@ -50,7 +50,7 @@ class Room extends Model
         return self::where('id', $id)
             ->with([
                 'reservations' => function ($query) {
-                    $query->select(['id', 'room_id', 'date_init', 'date_end']);
+                    $query->select(['id', 'room_id', 'date_init', 'date_end', 'status']);
                 },
                 'reservations.reservationParticipants' => function ($query) {
                     $query->select(['id', 'reservation_id', 'participant_id']);

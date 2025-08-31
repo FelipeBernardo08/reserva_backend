@@ -126,6 +126,47 @@ class ParticipantController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/participant/read-by-id/{id}",
+     *     summary="Ler participante filtrado por id",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Participante"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do participante",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Participante encontrado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="name", type="string", example="João"),
+     *                      @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                      @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00")
+     *                  )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhum participante encontrado!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example="false"),
+     *             @OA\Property(property="error", type="string", example="Nenhum participante cadastrado até o momento!")
+     *         )
+     *     )
+     * )
+     */
     public function readParticipantById(int $id): object
     {
         try {
