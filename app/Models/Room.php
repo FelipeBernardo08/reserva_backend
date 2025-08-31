@@ -34,7 +34,7 @@ class Room extends Model
             ->toArray();
     }
 
-    public function getAllRooms(): array
+    public function readAllRooms(): array
     {
         return self::with([
             'reservations' => function ($query) {
@@ -45,12 +45,18 @@ class Room extends Model
             ->toArray();
     }
 
-    public function getRoomDetails(int $id): array
+    public function readRoomDetails(int $id): array
     {
         return self::where('id', $id)
             ->with([
                 'reservations' => function ($query) {
-                    $query->select();
+                    $query->select(['id', 'room_id', 'date_init', 'date_end']);
+                },
+                'reservations.reservationParticipants' => function ($query) {
+                    $query->select(['id', 'reservation_id', 'participant_id']);
+                },
+                'reservations.reservationParticipants.participant' => function ($query) {
+                    $query->select(['id', 'name']);
                 }
             ])
             ->get()

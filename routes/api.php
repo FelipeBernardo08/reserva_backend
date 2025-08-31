@@ -31,17 +31,20 @@ Route::middleware(['jwt.auth'])->group(function () {
 
     Route::prefix('participant')->group(function () {
         Route::post('/create', [ParticipantController::class, 'createParticipant']);
-        Route::get('/read-all', [ParticipantController::class, 'getAllParticipants']);
+        Route::get('/read-all', [ParticipantController::class, 'readAllParticipants']);
+        Route::get('/read-by-id/{id}', [ParticipantController::class, 'readParticipantById']);
     });
 
     Route::prefix('room')->group(function () {
         Route::post('/create', [RoomController::class, 'createRoom']);
-        Route::get('/read-all', [RoomController::class, 'getAllRooms']);
+        Route::get('/read-all', [RoomController::class, 'readAllRooms']);
+        Route::get('/read-by-id/{id}', [RoomController::class, 'readAllRooms']);
     });
 
     Route::prefix('reservation')->group(function () {
         Route::post('/create', [ReservationController::class, 'createReservation']);
         Route::get('/read-complete', [ReservationController::class, 'getReservationsComplete']);
+        Route::get('/read-complete-by-id/{id}', [ReservationController::class, 'getReservationsCompleteById']);
         Route::get('/read-complete-by-room/{roomId}', [ReservationController::class, 'getReservationByRoomIdComplete']);
         Route::get('/read-complete-by-participant/{participantId}', [ReservationController::class, 'getReservationByParticipantIdComplete']);
         Route::patch('/cancel', [ReservationController::class, 'cancelReservation']);

@@ -19,6 +19,11 @@ class ReservationParticipant extends Model
         return $this->belongsTo(Participant::class, 'participant_id');
     }
 
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class, 'reservation_id');
+    }
+
     public function createReservationParticipants(int $reservationId, array $participantIds): bool
     {
         $data = [];

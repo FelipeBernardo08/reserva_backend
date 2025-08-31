@@ -171,6 +171,85 @@ class ReservationController extends Controller
 
     /**
      * @OA\Get(
+     *     path="/api/reservation/read-complete-by-id/{id}",
+     *     summary="Ler reserva filtrada por id",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Reserva"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da reserva",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Reservas encontradas!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="room_id", type="integer", example=1),
+     *                     @OA\Property(property="date_init", type="string", example="2025-08-30 00:00:00"),
+     *                     @OA\Property(property="date_end", type="string", example="2025-09-01 00:00:00"),
+     *                     @OA\Property(property="created_at", type="string", example="2025-08-29 00:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2025-08-29 00:00:00"),
+     *                     @OA\Property(
+     *                         property="room",
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="title", type="string", example="Sala de Reunião Marte"),
+     *                         @OA\Property(property="description", type="string", example="")
+     *                     ),
+     *                     @OA\Property(
+     *                         property="reservation_participants",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="reservation_id", type="integer", example=1),
+     *                             @OA\Property(property="participant_id", type="integer", example=1),
+     *                             @OA\Property(
+     *                                 property="participant",
+     *                                 type="object",
+     *                                 @OA\Property(property="id", type="integer", example=1),
+     *                                 @OA\Property(property="name", type="string", example="João")
+     *                             )
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhuma reserva encontrada!",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="error", type="string", example="Nenhuma reserva cadastrada no momento!")
+     *         )
+     *     )
+     * )
+     */
+    public function getReservationsCompleteById(int $id): object
+    {
+        try {
+            $reservations = $this->reservationModel->getReservationsCompleteById($id);
+            if (empty($reservations)) {
+                return response()->json(['success' => false, 'error' => 'Nenhuma reserva cadastrada no momento!'], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json(['success' => true, 'data' => $reservations], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @OA\Get(
      *     path="/api/reservation/read-complete-by-room/{id}",
      *     summary="Ler todas reservas filtradas por sala",
      *     security={{"bearerAuth":{}}},
@@ -179,7 +258,7 @@ class ReservationController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID da reserva",
+     *         description="ID da da sala",
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Response(
@@ -259,7 +338,7 @@ class ReservationController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID da reserva",
+     *         description="ID do participante",
      *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Response(

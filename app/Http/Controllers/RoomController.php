@@ -124,16 +124,29 @@ class RoomController extends Controller
      *     )
      * )
      */
-    public function getAllRooms(): object
+    public function readAllRooms(): object
     {
         try {
             $roomCache = $this->cacheService->read('rooms');
-            $rooms = empty($roomCache) ? $this->roomModel->getAllRooms() : $roomCache;
+            $rooms = empty($roomCache) ? $this->roomModel->readAllRooms() : $roomCache;
             if (empty($rooms)) {
                 return response()->json(['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], Response::HTTP_NOT_FOUND);
             }
             if (empty($roomCache)) {
                 $this->cacheService->create('rooms', $rooms, 600);
+            }
+            return response()->json(['success' => true, 'data' => $rooms], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function readRoomById(int $id): object
+    {
+        try {
+            $rooms = $this->roomModel->readRoomDetails($id);
+            if (empty($rooms)) {
+                return response()->json(['success' => false, 'error' => 'Nenhuma sala cadastrada até o momento.'], Response::HTTP_NOT_FOUND);
             }
             return response()->json(['success' => true, 'data' => $rooms], Response::HTTP_OK);
         } catch (Exception $e) {

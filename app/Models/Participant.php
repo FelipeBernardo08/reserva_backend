@@ -13,7 +13,7 @@ class Participant extends Model
         'name'
     ];
 
-    public function reservations()
+    public function reservationParticipant()
     {
         return $this->hasMany(ReservationParticipant::class, 'participant_id');
     }
@@ -25,10 +25,10 @@ class Participant extends Model
         ])->toArray();
     }
 
-    public function getAllParticipants(): array
+    public function readAllParticipants(): array
     {
         return self::with([
-            'reservations' => function ($query) {
+            'reservationParticipant' => function ($query) {
                 $query->select(['id', 'participant_id']);
             }
         ])
@@ -44,14 +44,17 @@ class Participant extends Model
             ]);
     }
 
-    public function getParticipantDetails(int $id): array
+    public function readParticipantDetails(int $id): array
     {
         return self::where('id', $id)
             ->with([
-                'reservations' => function ($query) {
+                'reservationParticipant' => function ($query) {
                     $query->where('status', true)->select(['id', 'room_id', 'date_init', 'date_end']);
                 },
-                'reservations.room' => function ($query) {
+                'reservationParticipant.reservation' => function ($query) {
+                    $query->select(['id', 'room_id', 'date_init', 'date_end']);
+                },
+                'reservationParticipant.reservation.room' => function ($query) {
                     $query->select(['id', 'title', 'description']);
                 }
             ])

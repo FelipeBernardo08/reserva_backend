@@ -109,16 +109,29 @@ class ParticipantController extends Controller
      *     )
      * )
      */
-    public function getAllParticipants(): object
+    public function readAllParticipants(): object
     {
         try {
             $participantsCache = $this->cacheService->read('participants');
-            $participants = empty($participantsCache) ? $this->participantModel->getAllParticipants() : $participantsCache;
+            $participants = empty($participantsCache) ? $this->participantModel->readAllParticipants() : $participantsCache;
             if (empty($participants)) {
                 return response()->json(['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], Response::HTTP_NOT_FOUND);
             }
             if (empty($participantsCache)) {
                 $this->cacheService->create('participants', $participants, 600);
+            }
+            return response()->json(['success' => true, 'data' => $participants], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function readParticipantById(int $id): object
+    {
+        try {
+            $participants = $this->participantModel->readParticipantDetails($id);
+            if (empty($participants)) {
+                return response()->json(['success' => false, 'error' => 'Nenhum participante cadastrado até o momento!'], Response::HTTP_NOT_FOUND);
             }
             return response()->json(['success' => true, 'data' => $participants], Response::HTTP_OK);
         } catch (Exception $e) {
