@@ -14,7 +14,7 @@ Este é um projeto backend para gerenciamento de reservas de salas/ambientes no 
 
 Antes de iniciar, verifique os seguintes pré-requisitos:
 
-- **Portas 8000 livre**
+- **Portas 8000, 3306, 6379 livres**
 - **Docker instalado**  
   [Clique aqui para baixar o Docker](https://www.docker.com/)
 
